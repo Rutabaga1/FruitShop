@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="GBK"?>
+<!-- 指定Struts 2配置文件的DTD信息 -->
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<!-- Struts 2配置文件的根元素 -->
+<struts>
+	<!-- 配置了系列常量 -->
+	<constant name="struts.objectFactory" value="spring" />
+	<constant name="struts.i18n.encoding" value="GBK"/>
+	<constant name="struts.enable.DynamicMethodInvocation" value="false" />
+	<!-- <constant name="struts.devMode" value="true"/>	 怎么处理-->
+	<constant name="struts.devMode" value="false" />
+	
+	<!-- <constant name="struts.action.extension" value="action"></constant> -->
+	
+	
+	<package name="action" namespace="/" extends="struts-default">
+		
+		<!-- collection -->
+		<action name="addCollection" class="action.CollectionAction"
+			method="add">
+			
+			<result type="chain">listCollections</result>
+			
+			<result name="error">/WEB-INF/content/error.jsp</result>
+		</action>
+		<action name="listCollections" class="action.CollectionAction"
+			method="list">
+			<result>/WEB-INF/content/listCollections.jsp</result>
+		</action>
+		<action name="deleteCollection" class="action.CollectionAction"
+			method="delete">
+			<result type="chain">listCollections</result>
+		</action>	
+		
+		<!-- comment -->
+		<action name="addComment" class="action.CommentAction"
+			method="add">
+			<param name="savePath">/images</param>
+			
+			<result type="chain">listComments</result>
+			
+			<result name="error">/WEB-INF/content/error.jsp</result>
+		</action>
+		<action name="listComments" class="action.CommentAction"
+			method="list">
+			<result>/WEB-INF/content/listComments.jsp</result>
+		</action>
+		<action name="deleteComment" class="action.CommentAction"
+			method="delete">
+			<result type="chain">listComments</result>
+		</action>
+		<action name="orderEvaluate" class="action.OrderAction"
+			method="evaluate">
+			<result>/WEB-INF/content/orderEvaluate.jsp</result>
+		</action>	
+		
+		<!-- order -->
+		<action name="addOrder" class="action.OrderAction"
+			method="add">
+			<result type="chain">listOrders</result>
+			<result name="error">/WEB-INF/content/error.jsp</result>
+		</action>
+		<action name="listOrders" class="action.OrderAction"
+			method="list">
+			<result>/WEB-INF/content/listOrders.jsp</result>
+		</action>
+		<action name="deleteOrder" class="action.OrderAction"
+			method="delete">
+			<result type="chain">listOrders</result>
+		</action>
+		<action name="ordersConfirm" class="action.OrderAction"
+			method="allOnes">
+			<result name="success">/WEB-INF/content/orderConfirm.jsp</result>
+			<result name="input">/WEB-INF/content/error.jsp</result>
+		</action>
+		
+		<!-- shoppingCar -->
+		<action name="addShoppingCar" class="action.ShoppingCarAction"
+			method="add">
+			
+			<result type="chain">listShoppingCars</result>
+			
+			<result name="error">/WEB-INF/content/error.jsp</result>
+		</action>
+		<action name="listShoppingCars" class="action.ShoppingCarAction"
+			method="list">
+			<result>/WEB-INF/content/listShoppingCars.jsp</result>
+			<result name="error">/WEB-INF/content/error.jsp</result>
+		</action>
+		<action name="deleteShoppingCar" class="action.ShoppingCarAction"
+			method="delete">
+			<result type="chain">listShoppingCars</result>
+		</action>
+		<action name="updateShoppingCar" class="action.ShoppingCarAction"
+			method="update">
+			<result type="chain">listShoppingCars</result>
+		</action>
+		
+		<!-- fruit -->
+		<action name="index" class="action.FruitShowAction"
+			method="list">
+			<result>/WEB-INF/content/index.jsp</result>
+		</action>
+		<action name="fruitDetails" class="action.FruitShowAction"
+			method="details">
+			<result>/WEB-INF/content/fruitDetails.jsp</result>
+		</action>
+		
+		<!-- customer -->
+		<action name="registerAdd" class="action.CustomerAction"
+			method="add">
+			<result type="chain">cusLogin</result>
+			<result name="error">/WEB-INF/content/register.jsp</result>
+		</action>
+		<action name="cusLogin" class="action.CustomerAction"
+			method="one">
+			<result type="chain">index</result>
+			<result name="error">/WEB-INF/content/login.jsp</result>
+		</action>
+	
+		<!-- 定义处理用户请求的Action，该Action的class属性不是实际处理类
+			, 而是Spring容器中的Bean实例的ID -->
+		
+		<action name="*">
+			<result>/WEB-INF/content/{1}.jsp</result>
+		</action>
+	</package>
+</struts>
